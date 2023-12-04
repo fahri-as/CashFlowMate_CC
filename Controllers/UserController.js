@@ -1,9 +1,11 @@
+const Daerah = require('../Models/DaerahModel');
 const User = require('../Models/UserModel');
 const bcrypt = require('bcrypt')
 
 const getAllUser = async (req, res) => {
     try {
         const users = await User.findAll();
+        console.log (users)
         res.status(200).json(users);
     } catch (error) {
         console.error(error.message);
@@ -22,13 +24,21 @@ const createUser = async (req, res) => {
 }
 */
     try {
-        let { id_user, id_daerah, nama, email, password } = req.body;
+        let { id_daerah, nama, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password,10)
 
-        let errorMessage = !id_user && !id_daerah && !nama && !email && !password
-            ? "ID User, ID Daerah, Nama, Email, dan Password tidak boleh kosong"
-            : !id_user
-                ? "ID User tidak boleh kosong"
+        const existingUser = await User.findOne({where:{email:email}})
+        if(existingUser){
+            return res.status(403).json({error:"email sudah terdaftar"})
+        }
+
+        const existingAddress = await Daerah.findOne({where:{nama_daerah:id_daerah}})
+        if(existingAddress){
+            id_daerah = existingAddress.id_daerah
+        }
+
+        let errorMessage = !id_daerah && !nama && !email && !password
+            ? "ID Daerah, Nama, Email, dan Password tidak boleh kosong"
                 : !id_daerah
                     ? "ID Daerah tidak boleh kosong"
                     : !nama
@@ -42,7 +52,7 @@ const createUser = async (req, res) => {
         if (errorMessage) {
             res.status(403).json({ error: errorMessage });
         } else {
-            const newUser = await User.create({ id_user, id_daerah, nama, email, password:hashedPassword });
+            const newUser = await User.create({id_daerah, nama, email, password:hashedPassword });
 
             res.status(201).json({
                 data: newUser,

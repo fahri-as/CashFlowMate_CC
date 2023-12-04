@@ -14,6 +14,13 @@ router.post('/login',login)
 router.get('/logout',logout)
 router.get('/user', getAllUser);
 router.post('/user', createUser);
+
+// Daerah
+router.get('/daerah', getAllDaerah);
+router.post('/daerah', createDaerah);
+router.get('/daerah/:id_daerah', getDaerah);
+router.put('/daerah/:id_daerah', updateDaerah);
+router.delete('/daerah/:id_daerah', deleteDaerah);
 //Aset 
 router.use(authenticateToken)
 
@@ -23,12 +30,7 @@ router.get('/aset/:id_aset', getAset);
 router.put('/aset/:id_aset', updateAset);
 router.delete('/aset/:id_aset', deleteAset);
 
-// Daerah
-router.get('/daerah', getAllDaerah);
-router.post('/daerah', createDaerah);
-router.get('/daerah/:id_daerah', getDaerah);
-router.put('/daerah/:id_daerah', updateDaerah);
-router.delete('/daerah/:id_daerah', deleteDaerah);
+
 
 // User
 

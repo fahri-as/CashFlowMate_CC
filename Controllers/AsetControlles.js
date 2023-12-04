@@ -14,12 +14,12 @@ const createAset = async (req, res) => {
     try {
         const { id_aset, nama } = req.body;
 
-        const errorMessage = !id_aset&&!nama?"id aset dan nama tidak boleh kosong" :!id_aset ? "id aset tidak boleh kosong" : !nama ? "nama tidak boleh kosong" : null;
+        const errorMessage = !nama?"nama tidak boleh kosong" : !nama ? "nama tidak boleh kosong" : null;
 
         if (errorMessage) {
             res.status(403).json({ error: errorMessage });
         } else {
-            const newAset = await Aset.create({ id_aset, nama });
+            const newAset = await Aset.create({ nama });
 
             res.status(201).json({
                 data: newAset,

@@ -14,10 +14,8 @@ const createKategori = async (req, res) => {
     try {
         const { id_kategori, id_jenis, nama } = req.body;
 
-        const errorMessage = !id_kategori && !id_jenis && !nama
+        const errorMessage = !id_jenis && !nama
             ? "ID Kategori, ID Jenis, dan Nama Kategori tidak boleh kosong"
-            : !id_kategori
-                ? "ID Kategori tidak boleh kosong"
                 : !id_jenis
                     ? "ID Jenis tidak boleh kosong"
                     : !nama
@@ -27,7 +25,7 @@ const createKategori = async (req, res) => {
         if (errorMessage) {
             res.status(403).json({ error: errorMessage });
         } else {
-            const newKategori = await Kategori.create({ id_kategori, id_jenis, nama });
+            const newKategori = await Kategori.create({id_jenis, nama });
 
             res.status(201).json({
                 data: newKategori,

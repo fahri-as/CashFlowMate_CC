@@ -1,10 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize("mysql://root@localhost/pengelola_kauangan");
+const sequelize = new Sequelize({
+    dialect: 'mysql',
+    host: '34.101.68.4', // Replace with your actual host IP address
+    port: 3306, // Replace with your actual MySQL port
+    username: 'root',
+    password: '321cashflow', // Replace with your database password
+    database: 'pengelola_kauangan',
+  });
 
 const Kategori = sequelize.define('Kategori', {
     id_kategori: {
-        type: DataTypes.STRING,
-        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue : DataTypes.UUIDV4,
+        primaryKey : true
     },
     id_jenis: {
         type: DataTypes.STRING,
