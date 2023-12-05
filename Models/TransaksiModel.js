@@ -10,7 +10,8 @@ const sequelize = new Sequelize({
 
 const Transaksi = sequelize.define('Transaksi', {
     id_transaksi: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
+        defaultValue : DataTypes.UUIDV4,
         primaryKey: true,
     },
     id_user: {
